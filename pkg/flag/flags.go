@@ -4,6 +4,21 @@ import "strconv"
 
 type FlagType int
 
+func (F FlagType) String() string {
+	switch F {
+	case StringFlag:
+		return "String"
+	case IntegerFlag:
+		return "Integer"
+	case FloatFlag:
+		return "Float"
+	case JsonFlag:
+		return "JSON"
+	default:
+		return ""
+	}
+}
+
 const (
 	StringFlag FlagType = iota
 	BooleanFlag
@@ -23,7 +38,6 @@ type FeatureFlag struct {
 func NewFlag() *FeatureFlag {
 	return &FeatureFlag{}
 }
-
 
 func (fl *FeatureFlag) String() string {
 	switch fl.Type {

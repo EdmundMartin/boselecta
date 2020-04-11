@@ -9,19 +9,19 @@ import (
 const minBuffer = 1500
 
 type ClientConn struct {
-	conn net.Conn
-	reader *bufio.Reader
-	writer *bufio.Writer
-	scanner *bufio.Scanner
+	conn      net.Conn
+	reader    *bufio.Reader
+	writer    *bufio.Writer
+	scanner   *bufio.Scanner
 	dataStore storage.FlagStorage
 }
 
 func NewClientConn(c net.Conn, dataStore storage.FlagStorage) *ClientConn {
 	return &ClientConn{
-		conn:     c,
-		reader:   bufio.NewReader(c),
-		writer:   bufio.NewWriter(c),
-		scanner:  bufio.NewScanner(c),
+		conn:      c,
+		reader:    bufio.NewReader(c),
+		writer:    bufio.NewWriter(c),
+		scanner:   bufio.NewScanner(c),
 		dataStore: dataStore,
 	}
 }

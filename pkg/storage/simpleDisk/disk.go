@@ -24,7 +24,7 @@ func newNamespace() *namespace {
 type DiskStorage struct {
 	Namespaces map[string]*namespace
 	RWLock     *sync.RWMutex
-	Save bool
+	Save       bool
 }
 
 func NewDiskStore(save bool) *DiskStorage {
