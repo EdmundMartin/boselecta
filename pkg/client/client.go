@@ -114,3 +114,16 @@ func (b *Boselecta) RetrieveFlag(flagname string) (interface{}, error) {
 	b.cache.SetKey(flagname, msg.rawVal, msg.refresh)
 	return msg.rawVal, nil
 }
+
+func (b *Boselecta) RetrieveStringFlag(flagname string, defaultVal string) string {
+	f, err := b.RetrieveFlag(flagname)
+	if err != nil {
+		return defaultVal
+	}
+	var result string
+	result = f.(string)
+	if result == "" {
+		return defaultVal
+	}
+	return result
+}

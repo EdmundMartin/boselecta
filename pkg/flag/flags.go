@@ -19,6 +19,21 @@ func (F FlagType) String() string {
 	}
 }
 
+func ToFlagType(flagStr string) FlagType {
+	switch flagStr {
+	case "String":
+		return StringFlag
+	case "Integer":
+		return IntegerFlag
+	case "Float":
+		return FloatFlag
+	case "JSON":
+		return JsonFlag
+	default:
+		return StringFlag
+	}
+}
+
 const (
 	StringFlag FlagType = iota
 	BooleanFlag
