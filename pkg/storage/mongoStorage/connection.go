@@ -20,6 +20,7 @@ func createIndex(col *mongo.Collection) error {
 	mod := mongo.IndexModel{
 		Keys: bson.M{
 			"FlagName": -1, // index in descending order,
+			"Namespace": -1,
 		},
 		Options: options.Index().SetUnique(true),
 	}
@@ -72,5 +73,30 @@ func (ms *MongoStorage) Create(namespace string, fl *flag.FeatureFlag) error {
 	if err != nil {
 		fmt.Println(err)
 	}
+	return err
+}
+
+func (ms *MongoStorage) GetFlag(namespace string, flagName string) (*flag.FeatureFlag, error) {
+	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	var result bson.M
+	err := ms.coll.FindOne(ctx, bson.M{"Namespace": namespace, "FlagName": flagName}).Decode(&result)
+	if err != nil {
+		return nil, err
+	}
+	return decodeBSON(result), nil
+}
+
+func (ms *MongoStorage) Delete(namespace string, flagName string) error {
+	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	_, err := ms.coll.DeleteOne(ctx, bson.M{"Namespace": namespace, "FlagName": flagName})
+	return err
+}
+
+func (ms *MongoStorage) Update(namespace string, fl *flag.FeatureFlag) error {
+	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	_, err := ms.coll.UpdateOne(ctx, bson.M{"Namespace": namespace, "FlagName": fl.FlagName}, bson.M{
+		"Namespace": namespace, "FlagName": fl.FlagName, "Value": fl.Value, "Type": fl.Type.String(),
+		"Refresh": fl.Refresh,
+	})
 	return err
 }
