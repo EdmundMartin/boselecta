@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/EdmundMartin/boselecta/pkg/flag"
 	"github.com/EdmundMartin/boselecta/pkg/server"
-	"github.com/EdmundMartin/boselecta/pkg/storage/simpleDisk"
+	"github.com/EdmundMartin/boselecta/pkg/storage/mongoStorage"
 	"net"
 )
 
@@ -16,15 +15,11 @@ func main()  {
 	}
 	defer l.Close()
 
-	f := &flag.FeatureFlag{
-		Namespace: "example-namespace",
-		FlagName:  "hello",
-		Value:     100,
-		Type:      flag.IntegerFlag,
-		Refresh:   100,
+	storage, err := mongoStorage.NewMongo("mongodb://localhost:27017", "featureFlag", "flags")
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
 	}
-	storage := simpleDisk.NewDiskStore(true)
-	storage.Create("example-namespace", f)
 	for {
 		c, err := l.Accept()
 		if err != nil {
@@ -32,7 +27,6 @@ func main()  {
 			return
 		}
 		conn := server.NewClientConn(c, storage)
-		//go conn.handleConnection()
 		go conn.HandleConn()
 	}
 }

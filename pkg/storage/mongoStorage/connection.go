@@ -29,7 +29,7 @@ func createIndex(col *mongo.Collection) error {
 }
 
 func NewMongo(uri string, db string, collection string) (*MongoStorage, error) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 	if err != nil {
 		return nil, err
 	}
