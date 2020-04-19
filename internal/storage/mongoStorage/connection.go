@@ -50,19 +50,22 @@ func NewMongo(uri string, db string, collection string) (*MongoStorage, error) {
 }
 
 
-func (ms *MongoStorage) All() []*flag.FeatureFlag {
+func (ms *MongoStorage) All() ([]*flag.FeatureFlag, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	cur, err := ms.coll.Find(ctx, bson.D{})
 	if err != nil {
-		return make([]*flag.FeatureFlag, 0)
+		return make([]*flag.FeatureFlag, 0), err
 	}
 	fflags := []*flag.FeatureFlag{}
 	for cur.Next(ctx) {
 		var result bson.M
-		cur.Decode(&result)
+		err := cur.Decode(&result)
+		if err != nil {
+			return fflags, err
+		}
 		fflags = append(fflags, decodeBSON(result))
 	}
-	return fflags
+	return fflags, nil
 }
 
 

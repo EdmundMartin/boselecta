@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/EdmundMartin/boselecta/internal/flag"
+	"log"
 )
 
 func sendSuccessResponse(c *ClientConn, f *flag.FeatureFlag) error {
@@ -17,9 +18,18 @@ func (c *ClientConn) HandleConn() {
 		f, err := c.handleGet(cmd)
 		if err != nil {
 			errorResp := fmt.Sprintf("ERROR %s\n", err.Error())
-			c.SendAll([]byte(errorResp))
+			_, cErr := c.SendAll([]byte(errorResp))
+			if cErr != nil {
+				log.Printf("encountered error sending ERROR response: %s", cErr)
+				return
+			}
 		} else {
-			sendSuccessResponse(c, f)
+			cErr := sendSuccessResponse(c, f)
+			if cErr != nil {
+				log.Printf("encounted error sending response: %s", cErr)
+				return
+			}
 		}
 	}
+	return
 }

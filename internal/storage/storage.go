@@ -9,5 +9,5 @@ type FlagStorage interface {
 	Create(string, *flag.FeatureFlag) error
 	Update(string, *flag.FeatureFlag) error
 	Delete(namespace string, flag string) error
-	All() []*flag.FeatureFlag
+	All() ([]*flag.FeatureFlag, error)
 }
