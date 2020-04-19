@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"github.com/EdmundMartin/boselecta/pkg/flag"
+	"github.com/EdmundMartin/boselecta/internal/flag"
 )
 
 type FlagStorage interface {

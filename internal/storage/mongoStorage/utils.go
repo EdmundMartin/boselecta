@@ -1,7 +1,7 @@
 package mongoStorage
 
 import (
-	"github.com/EdmundMartin/boselecta/pkg/flag"
+	"github.com/EdmundMartin/boselecta/internal/flag"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

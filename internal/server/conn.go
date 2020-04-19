@@ -2,7 +2,7 @@ package server
 
 import (
 	"bufio"
-	"github.com/EdmundMartin/boselecta/pkg/storage"
+	"github.com/EdmundMartin/boselecta/internal/storage"
 	"net"
 )
 

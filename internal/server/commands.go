@@ -2,7 +2,7 @@ package server
 
 import (
 	"errors"
-	"github.com/EdmundMartin/boselecta/pkg/flag"
+	"github.com/EdmundMartin/boselecta/internal/flag"
 	"strings"
 )
 

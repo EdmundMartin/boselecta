@@ -2,7 +2,7 @@ package server
 
 import (
 	"fmt"
-	"github.com/EdmundMartin/boselecta/pkg/flag"
+	"github.com/EdmundMartin/boselecta/internal/flag"
 )
 
 func sendSuccessResponse(c *ClientConn, f *flag.FeatureFlag) error {
